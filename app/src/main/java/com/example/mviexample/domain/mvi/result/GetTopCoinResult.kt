@@ -1,7 +1,7 @@
 package com.example.mviexample.domain.mvi.result
 
 import com.example.mviexample.data.error.InterpretedError
-import com.example.mviexample.domain.model.GetTopCoinsResponse
+import com.example.mviexample.domain.model.response.GetTopCoinsResponse
 import com.example.mviexample.domain.mvi.Result
 
 sealed class GetTopCoinResult : Result {

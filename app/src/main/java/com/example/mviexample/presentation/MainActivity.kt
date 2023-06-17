@@ -1,8 +1,9 @@
-package com.example.mviexample
+package com.example.mviexample.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mviexample.domain.GetCoinsFragment
+import com.example.mviexample.R
+import com.example.mviexample.presentation.coininfoscreen.GetCoinsFragment
 
 class MainActivity : AppCompatActivity() {
 

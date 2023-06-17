@@ -1,4 +1,4 @@
-package com.example.mviexample.domain
+package com.example.mviexample.presentation.coininfoscreen
 
 import android.content.Context
 import android.os.Bundle
@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.mviexample.databinding.FragmentGetCoinsBinding
 import com.example.mviexample.domain.mvi.action.CoinAction
 import com.example.mviexample.presentation.AppLogger
-import com.example.mviexample.presentation.MainViewModel
 import com.example.mviexample.presentation.MviExampleApplication
-import com.example.mviexample.presentation.ViewModelFactory
+import com.example.mviexample.presentation.LseState
+import com.example.mviexample.presentation.viewmodel.MainViewModel
+import com.example.mviexample.presentation.viewmodel.ViewModelFactory
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class GetCoinsFragment : Fragment() {
@@ -51,7 +54,25 @@ class GetCoinsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.onAction(CoinAction.GetTopCoinAction)
+        with(binding) {
+
+            btnGetCoinInfo.setOnClickListener {
+                viewModel.onAction(CoinAction.GetTopCoinAction)
+            }
+
+            lifecycleScope.launch {
+                viewModel.coinUiState.collect {
+                    when (it.getCoinListState) {
+                        is LseState.Success -> tvCoinList.text = it.coinNameList.toString()
+                        is LseState.Error -> tvCoinList.text = it.getCoinListState.errorDescription
+                        is LseState.Loading -> tvCoinList.text = "Loading..."
+                        else -> {}
+                    }
+                    btnGetCoinInfo.isEnabled = it.getCoinListState !is LseState.Loading
+                }
+            }
+        }
+
     }
 
     override fun onDestroyView() {

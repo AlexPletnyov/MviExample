@@ -1,7 +1,6 @@
 package com.example.mviexample.data.repository
 
-import com.example.mviexample.data.modlewares.GetTopCoinsMiddleware
-import com.example.mviexample.domain.model.CoinInfo
+import com.example.mviexample.data.midlewares.GetTopCoinsMiddleware
 import com.example.mviexample.domain.mvi.Action
 import com.example.mviexample.domain.mvi.Result
 import com.example.mviexample.domain.mvi.action.CoinAction

@@ -1,4 +1,4 @@
-package com.example.mviexample.data.modlewares
+package com.example.mviexample.data.midlewares
 
 import com.example.mviexample.data.error.MapErrorUtil.extractLocalError
 import com.example.mviexample.data.mapper.DataMapper

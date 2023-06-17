@@ -1,4 +1,4 @@
-package com.example.mviexample.presentation
+package com.example.mviexample.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
