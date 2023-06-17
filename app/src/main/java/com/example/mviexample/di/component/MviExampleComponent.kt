@@ -9,7 +9,6 @@ import com.example.mviexample.di.module.PreferencesModule
 import com.example.mviexample.di.module.ViewModelModule
 import com.example.mviexample.di.scopes.ApplicationScope
 import com.example.mviexample.domain.GetCoinsFragment
-import com.example.mviexample.presentation.MainViewModel
 import dagger.BindsInstance
 import dagger.Component
 
@@ -26,7 +25,7 @@ import dagger.Component
 )
 interface MviExampleComponent {
 
-//    fun inject(wrapper: GetCoinsFragment)
+    fun inject(wrapper: GetCoinsFragment)
 
     @Component.Builder
     interface Builder {

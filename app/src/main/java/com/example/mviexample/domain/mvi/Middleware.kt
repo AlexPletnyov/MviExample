@@ -19,14 +19,14 @@ abstract class Middleware<A, R>(
 
     suspend fun <T : Any> doRequest(
         requestAsync: suspend () -> ApiResponse<T>,
-        responseOk: T.() -> Unit,
+        responseOk: List<T>.() -> Unit,
         onApiErrorStatus: ApiErrorModel.() -> Unit,
         onException: Exception.() -> Unit
     ) {
         try {
             val response = requestAsync()
-            if (response.result != null) {
-                response.result!!.responseOk()
+            if (response.data != null) {
+                response.data!!.responseOk()
             }
         } catch (e: HttpException) {
             val error: ApiErrorModel = e.extractApiError()

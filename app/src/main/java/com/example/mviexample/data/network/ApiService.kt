@@ -1,7 +1,7 @@
 package com.example.mviexample.data.network
 
 import com.example.mviexample.data.network.model.CoinInfoJsonContainerDto
-import com.example.mviexample.data.network.model.CoinNamesListDto
+import com.example.mviexample.data.network.model.CoinNameContainerDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,7 +10,7 @@ interface ApiService {
     suspend fun getTopCoinsInfo(
         @Query(QUERY_PARAM_LIMIT) limit: Int = 100,
         @Query(QUERY_PARAM_TO_SYMBOL) tSym: String = CURRENCY
-    ): ApiResponse<CoinNamesListDto>
+    ): ApiResponse<CoinNameContainerDto>
 
     @GET("pricemultifull")
     suspend fun getFullPriceList(
@@ -19,7 +19,6 @@ interface ApiService {
     ): ApiResponse<CoinInfoJsonContainerDto>
 
     companion object {
-        private const val QUERY_PARAM_API_KEY = "apy_key"
         private const val QUERY_PARAM_LIMIT = "limit"
         private const val QUERY_PARAM_TO_SYMBOL = "tsym"
         private const val QUERY_PARAM_FROM_SYMBOLS = "fsyms"

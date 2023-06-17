@@ -4,11 +4,11 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 class ApiResponse<T : Any> {
-    @SerializedName("result")
+    @SerializedName("Message")
     @Expose
-    var result: T? = null
+    var message: String? = null
 
-    @SerializedName("error")
+    @SerializedName("Data")
     @Expose
-    var error: String? = null
+    var data: List<T>? = null
 }

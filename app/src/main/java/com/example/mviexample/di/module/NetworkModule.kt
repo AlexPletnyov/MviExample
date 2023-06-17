@@ -2,6 +2,7 @@ package com.example.mviexample.di.module
 
 import com.example.mviexample.data.network.ApiService
 import com.example.mviexample.data.network.Config
+import com.example.mviexample.data.network.interceptors.AccessTokenInterceptor
 import com.example.mviexample.data.repository.ApiRepositoryImpl
 import com.example.mviexample.di.scopes.ApplicationScope
 import com.example.mviexample.domain.repository.ApiRepository
@@ -11,7 +12,6 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.orbitmvi.orbit.viewmodel.BuildConfig
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -27,16 +27,11 @@ class NetworkModule {
         val logging =
             HttpLoggingInterceptor { message -> logger.d(message) }
                 .setLevel(HttpLoggingInterceptor.Level.BODY)
-        return if (BuildConfig.DEBUG) {
-            OkHttpClient()
-                .newBuilder()
-                .addNetworkInterceptor(logging)
-                .build()
-        } else {
-            OkHttpClient()
-                .newBuilder()
-                .build()
-        }
+        return OkHttpClient()
+            .newBuilder()
+            .addInterceptor(AccessTokenInterceptor())
+            .addNetworkInterceptor(logging)
+            .build()
 
     }
 
