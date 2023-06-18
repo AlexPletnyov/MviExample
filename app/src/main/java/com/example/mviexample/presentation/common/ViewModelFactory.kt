@@ -1,4 +1,4 @@
-package com.example.mviexample.presentation.viewmodel
+package com.example.mviexample.presentation.common
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

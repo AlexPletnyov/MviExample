@@ -1,21 +1,19 @@
-package com.example.mviexample.presentation.coininfoscreen
+package com.example.mviexample.presentation.screen
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import com.example.mviexample.databinding.FragmentGetCoinsBinding
-import com.example.mviexample.domain.mvi.action.CoinAction
-import com.example.mviexample.presentation.AppLogger
 import com.example.mviexample.presentation.MviExampleApplication
-import com.example.mviexample.presentation.LseState
-import com.example.mviexample.presentation.viewmodel.MainViewModel
-import com.example.mviexample.presentation.viewmodel.ViewModelFactory
-import kotlinx.coroutines.launch
+import com.example.mviexample.presentation.common.AppLogger
+import com.example.mviexample.presentation.common.UiStatus
+import com.example.mviexample.presentation.common.ViewModelFactory
+import org.orbitmvi.orbit.viewmodel.observe
 import javax.inject.Inject
 
 class GetCoinsFragment : Fragment() {
@@ -29,7 +27,7 @@ class GetCoinsFragment : Fragment() {
         (requireActivity().application as MviExampleApplication).component
     }
 
-    private val viewModel by activityViewModels<MainViewModel> {
+    private val viewModel by activityViewModels<TopCoinsViewModel> {
         viewModelFactory
     }
 
@@ -54,25 +52,31 @@ class GetCoinsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.observe(viewLifecycleOwner, state = ::render, sideEffect = ::sideEffect)
+
+        binding.btnGetCoinInfo.setOnClickListener {
+            viewModel.event(TopCoinsEvent.GetTopCoins)
+        }
+    }
+
+    private fun render(state: TopCoinsState) {
         with(binding) {
-
-            btnGetCoinInfo.setOnClickListener {
-                viewModel.onAction(CoinAction.GetTopCoinAction)
+            when (state.status) {
+                is UiStatus.Success -> tvCoinList.text = state.coinNameList.toString()
+                is UiStatus.Error -> tvCoinList.text = state.status.errorDescription
+                is UiStatus.Loading -> tvCoinList.text = "Loading..."
+                else -> {}
             }
+            btnGetCoinInfo.isEnabled = state.status !is UiStatus.Loading
+        }
+    }
 
-            lifecycleScope.launch {
-                viewModel.coinUiState.collect {
-                    when (it.getCoinListState) {
-                        is LseState.Success -> tvCoinList.text = it.coinNameList.toString()
-                        is LseState.Error -> tvCoinList.text = it.getCoinListState.errorDescription
-                        is LseState.Loading -> tvCoinList.text = "Loading..."
-                        else -> {}
-                    }
-                    btnGetCoinInfo.isEnabled = it.getCoinListState !is LseState.Loading
-                }
+    private fun sideEffect(sideEffect: TopCoinsSideEffect) {
+        when (sideEffect) {
+            is TopCoinsSideEffect.ShowToast -> {
+                Toast.makeText(requireContext(), sideEffect.message, Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     override fun onDestroyView() {

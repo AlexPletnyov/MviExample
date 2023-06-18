@@ -2,7 +2,7 @@ package com.example.mviexample.di.module
 
 import androidx.lifecycle.ViewModel
 import com.example.mviexample.di.ViewModelKey
-import com.example.mviexample.presentation.viewmodel.MainViewModel
+import com.example.mviexample.presentation.screen.TopCoinsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -12,6 +12,6 @@ interface ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MainViewModel::class)
-    fun bindMainViewModel(viewModel: MainViewModel): ViewModel
+    @ViewModelKey(TopCoinsViewModel::class)
+    fun bindMainViewModel(viewModel: TopCoinsViewModel): ViewModel
 }

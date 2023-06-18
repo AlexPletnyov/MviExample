@@ -1,9 +1,8 @@
 package com.example.mviexample.domain.repository
 
-import com.example.mviexample.data.network.ApiResponse
-import com.example.mviexample.data.network.model.CoinNameContainerDto
+import com.example.mviexample.domain.model.GetTopCoinsResponse
 
 interface ApiRepository {
 
-    suspend fun getCoinInfoList(): ApiResponse<CoinNameContainerDto>
+    suspend fun getCoinInfoList(): GetTopCoinsResponse
 }

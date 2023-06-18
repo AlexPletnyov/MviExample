@@ -1,12 +1,13 @@
 package com.example.mviexample.di.module
 
+import com.example.mviexample.data.mapper.DataMapper
 import com.example.mviexample.data.network.ApiService
 import com.example.mviexample.data.network.Config
 import com.example.mviexample.data.network.interceptors.AccessTokenInterceptor
 import com.example.mviexample.data.repository.ApiRepositoryImpl
 import com.example.mviexample.di.scopes.ApplicationScope
 import com.example.mviexample.domain.repository.ApiRepository
-import com.example.mviexample.presentation.AppLogger
+import com.example.mviexample.presentation.common.AppLogger
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -60,5 +61,8 @@ class NetworkModule {
 
     @Provides
     @ApplicationScope
-    fun provideApiRepository(apiService: ApiService): ApiRepository = ApiRepositoryImpl(apiService)
+    fun provideApiRepository(
+        apiService: ApiService,
+        dataMapper: DataMapper
+    ): ApiRepository = ApiRepositoryImpl(apiService, dataMapper)
 }

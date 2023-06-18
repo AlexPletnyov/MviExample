@@ -1,6 +1,6 @@
 package com.example.mviexample.di.module
 
-import com.example.mviexample.presentation.AppLogger
+import com.example.mviexample.presentation.common.AppLogger
 import dagger.Module
 import dagger.Provides
 

@@ -2,13 +2,13 @@ package com.example.mviexample.di.component
 
 import android.app.Application
 import com.example.mviexample.di.module.ContextModule
-import com.example.mviexample.di.module.DataModule
+import com.example.mviexample.di.module.HandleErrorModule
 import com.example.mviexample.di.module.LoggerModule
 import com.example.mviexample.di.module.NetworkModule
 import com.example.mviexample.di.module.PreferencesModule
 import com.example.mviexample.di.module.ViewModelModule
 import com.example.mviexample.di.scopes.ApplicationScope
-import com.example.mviexample.presentation.coininfoscreen.GetCoinsFragment
+import com.example.mviexample.presentation.screen.GetCoinsFragment
 import dagger.BindsInstance
 import dagger.Component
 
@@ -16,9 +16,9 @@ import dagger.Component
 @Component(
     modules = [
         ContextModule::class,
-        DataModule::class,
         NetworkModule::class,
         PreferencesModule::class,
+        HandleErrorModule::class,
         ViewModelModule::class,
         LoggerModule::class
     ]
