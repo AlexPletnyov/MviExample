@@ -8,15 +8,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.mviexample.databinding.FragmentGetCoinsBinding
 import com.example.mviexample.presentation.MviExampleApplication
 import com.example.mviexample.presentation.common.AppLogger
 import com.example.mviexample.presentation.common.UiStatus
 import com.example.mviexample.presentation.common.ViewModelFactory
-import org.orbitmvi.orbit.viewmodel.observe
+import com.example.mviexample.presentation.mvi.MviView
 import javax.inject.Inject
 
-class GetCoinsFragment : Fragment() {
+class GetCoinsFragment : Fragment(), MviView<TopCoinsState, TopCoinsSideEffect> {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -51,15 +52,19 @@ class GetCoinsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.bind(viewLifecycleOwner.lifecycleScope, this)
+        setClickListeners()
+    }
 
-        viewModel.observe(viewLifecycleOwner, state = ::render, sideEffect = ::sideEffect)
-
-        binding.btnGetCoinInfo.setOnClickListener {
-            viewModel.event(TopCoinsEvent.GetTopCoins)
+    private fun setClickListeners() {
+        with(binding) {
+            btnGetCoinInfo.setOnClickListener {
+                viewModel.event(TopCoinsEvent.GetTopCoins)
+            }
         }
     }
 
-    private fun render(state: TopCoinsState) {
+    override fun render(state: TopCoinsState) {
         with(binding) {
             when (state.status) {
                 is UiStatus.Success -> tvCoinList.text = state.coinNameList.toString()
@@ -71,10 +76,11 @@ class GetCoinsFragment : Fragment() {
         }
     }
 
-    private fun sideEffect(sideEffect: TopCoinsSideEffect) {
-        when (sideEffect) {
+    override fun sideEffect(effect: TopCoinsSideEffect) {
+        when (effect) {
             is TopCoinsSideEffect.ShowToast -> {
-                Toast.makeText(requireContext(), sideEffect.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, effect.message, Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }

@@ -1,5 +1,6 @@
-package com.example.mviexample.data.error
+package com.example.mviexample.data.repository
 
+import com.example.mviexample.domain.repository.ErrorHandler
 import com.example.mviexample.presentation.common.AppLogger
 import retrofit2.HttpException
 import java.io.IOException
